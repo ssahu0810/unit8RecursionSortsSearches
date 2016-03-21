@@ -71,7 +71,7 @@ public class KochPanel extends JPanel
    {
       super.paintComponent (page);
 
-      page.setColor (Color.green);
+      page.setColor (Color.white);
 
       drawFractal (current, TOPX, TOPY, LEFTX, LEFTY, page);
       drawFractal (current, LEFTX, LEFTY, RIGHTX, RIGHTY, page);
