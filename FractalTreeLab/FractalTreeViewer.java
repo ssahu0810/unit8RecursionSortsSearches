@@ -9,10 +9,10 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class FractalTreeViewer implements ActionListener
+public class FractalTreeViewer
 {
-    private final int WIDTH = 400;
-    private final int HEIGHT = 500;
+    private final int WIDTH = 500;
+    private final int HEIGHT = 600;
 
     private final int MIN = 1, MAX = 9;
 
@@ -39,7 +39,7 @@ public class FractalTreeViewer implements ActionListener
 
         titleLabel = new JLabel ("The Fractal Snowflake");
         titleLabel.setForeground (Color.black);
-
+        /**
         increase = new JButton (new ImageIcon ("increase.gif"));
         increase.setPressedIcon (new ImageIcon ("increasePressed.gif"));
         increase.setMargin (new Insets (0, 0, 0, 0));
@@ -48,14 +48,16 @@ public class FractalTreeViewer implements ActionListener
         decrease.setPressedIcon (new ImageIcon ("decreasePressed.gif"));
         decrease.setMargin (new Insets (0, 0, 0, 0));
         decrease.addActionListener (this);
-
+        */
         orderLabel = new JLabel ("Order: 1");
         orderLabel.setForeground (Color.black);
 
         tools.add (titleLabel);
         tools.add (Box.createHorizontalStrut (20));
+        /**
         tools.add (decrease);
         tools.add (increase);
+        */
         tools.add (Box.createHorizontalStrut (20));
         tools.add (orderLabel);
 
@@ -66,7 +68,7 @@ public class FractalTreeViewer implements ActionListener
         panel.add (drawing);
 
         frame = new JFrame();
-        frame.setTitle("Knoch Snowflake");
+        frame.setTitle("Fractal Tree Lab");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(WIDTH, HEIGHT);
         frame.add(panel);
@@ -77,6 +79,7 @@ public class FractalTreeViewer implements ActionListener
     //  Determines which button was pushed, and sets the new order
     //  if it is in range.
     //-----------------------------------------------------------------
+    /**
     public void actionPerformed (ActionEvent event)
     {
         int order = drawing.getOrder();
@@ -93,4 +96,5 @@ public class FractalTreeViewer implements ActionListener
             frame.repaint();
         }
     }
+    */
 }

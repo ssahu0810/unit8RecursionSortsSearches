@@ -9,22 +9,24 @@ import javax.swing.JPanel;
 
 public class FractalPanel extends JPanel
 {
-    private final int PANEL_WIDTH = 400;
-    private final int PANEL_HEIGHT = 400;
+    private final int PANEL_WIDTH = 800;
+    private final int PANEL_HEIGHT = 800;
 
     private final double SQ = Math.sqrt(3.0) / 6;
-
+    /**
     private final int TOPX = 200, TOPY = 20;
     private final int LEFTX = 60, LEFTY = 300;
     private final int RIGHTX = 340, RIGHTY = 300;
+    */
     
-    private final int beginX = 300, beginY = 300;
+    private final int beginX = 400, beginY = 500;
 
     private int current; //current order
-    private int dLength = 100;
+    private int dLength = 120;
     
     private final double fractionLength = 0.8;
-    private final double branchingAngle = 0.35;
+    private double branchingAngle = 0.15;
+    private double angleChange = 0.2;
 
     //-----------------------------------------------------------------
     //  Sets the initial fractal order to the value specified.
@@ -72,21 +74,32 @@ public class FractalPanel extends JPanel
     }
      */
 
-    public void branch(double dLength, int startX, int startY, double angle, Graphics g2)
+    public void branch(double dLength, int startX, int startY, double angle, Graphics g2, double branchingAngle, double angleChange)
     {
         int endX1, endX2, endY1, endY2;
         dLength *= fractionLength;
         
+        
         double angle1 = angle + branchingAngle;
         double angle2 = angle - branchingAngle;
         
-        endX1 = (int)(startX - dLength*Math.sin(angle1));
-        endY1 = (int)(startY - dLength*Math.cos(angle2));
-        endX2 = (int)(startX + dLength*Math.sin(angle1));
-        endY2 = (int)(startY + dLength*Math.cos(angle2));
+        //fix angles
+        endX1 = (int)(startX - dLength*Math.cos(angle1));
+        endY1 = (int)(startY - dLength*Math.sin(angle1));
+        endX2 = (int)(startX - dLength*Math.cos(angle2));
+        endY2 = (int)(startY - dLength*Math.sin(angle2));
         
+        branchingAngle += angleChange;
+        angleChange += 0.05;
         g2.drawLine(startX, startY, endX1, endY1);
         g2.drawLine(startX, startY, endX2, endY2);
+        //check terminating sequence
+        //if true, call it wtice
+        if (dLength >= 40)
+        {
+            branch(dLength, endX1, endY1, 1.57+0.2, g2, branchingAngle, angleChange);
+            branch(dLength, endX2, endY2, 1.57+0.2, g2, branchingAngle, angleChange);
+        }
 
     }
 
@@ -98,8 +111,9 @@ public class FractalPanel extends JPanel
         super.paintComponent (g2);
 
         g2.setColor (Color.white);
+        g2.drawLine(400,600,400,500);
 
-        branch(dLength, beginX, beginY, 0.3, g2);
+        branch(dLength, beginX, beginY, 1.57, g2, branchingAngle, angleChange);
     }
 
     //-----------------------------------------------------------------
