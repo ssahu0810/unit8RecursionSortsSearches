@@ -9,28 +9,28 @@ import javax.swing.JPanel;
 
 public class FractalPanel extends JPanel
 {
+    //vierwe dimensions
     private final int PANEL_WIDTH = 800;
     private final int PANEL_HEIGHT = 800;
-
-    private final double SQ = Math.sqrt(3.0) / 6;
-    /**
-    private final int TOPX = 200, TOPY = 20;
-    private final int LEFTX = 60, LEFTY = 300;
-    private final int RIGHTX = 340, RIGHTY = 300;
-    */
     
+    //beginning point
     private final int beginX = 400, beginY = 500;
-
-    private int current; //current order
+    
+    //current order
+    private int current; 
     private int dLength = 120;
     
+    //angle stuff
     private final double fractionLength = 0.8;
     private double branchingAngle = 0.15;
-    private double angleChange = 0.2;
-
-    //-----------------------------------------------------------------
-    //  Sets the initial fractal order to the value specified.
-    //-----------------------------------------------------------------
+    private double angleChange = 0.15;
+    
+    
+    /**
+     * FractalPanel Constructor
+     *
+     * @param currentOrder current order the recursion is on
+     */
     public FractalPanel (int currentOrder)
     {
         current = currentOrder;
@@ -38,64 +38,42 @@ public class FractalPanel extends JPanel
         setPreferredSize (new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
     }
 
-    //-----------------------------------------------------------------
-    //  Draws the fractal recursively. Base case is an order of 1 for
-    //  which a simple straight line is drawn. Otherwise three
-    //  intermediate points are computed, and each line segment is
-    //  drawn as a fractal.
-    //-----------------------------------------------------------------
     /**
-    public void drawFractal (int order, int x1, int y1, int x5, int y5,
-    g2raphics g2)
-    {
-    int deltaX, deltaY, x2, y2, x3, y3, x4, y4;
-
-    if (order == 1)
-    g2.drawLine (x1, y1, x5, y5);
-    else
-    {
-    deltaX = x5 - x1;  // distance between end points
-    deltaY = y5 - y1;
-
-    x2 = x1 + deltaX / 3;  // one third
-    y2 = y1 + deltaY / 3;
-
-    x3 = (int) ((x1+x5)/2 + SQ * (y1-y5));  // tip of projection
-    y3 = (int) ((y1+y5)/2 + SQ * (x5-x1));
-
-    x4 = x1 + deltaX * 2/3;  // two thirds
-    y4 = y1 + deltaY * 2/3;
-
-    drawFractal (order-1, x1, y1, x2, y2, g2);
-    drawFractal (order-1, x2, y2, x3, y3, g2);
-    drawFractal (order-1, x3, y3, x4, y4, g2);
-    drawFractal (order-1, x4, y4, x5, y5, g2);
-    }
-    }
+     * handles recursive method of creating branches off of branches
+     *
+     * @param dLength length of branch
+     * @param startX starting x position
+     * @param startY starting y position
+     * @param angle angle between branches
+     * @param g2 graphics object
+     * @param branchingAngle initial branching angle
+     * @param angleChange how much the angle increases/decreases by
      */
-
     public void branch(double dLength, int startX, int startY, double angle, Graphics g2, double branchingAngle, double angleChange)
     {
         int endX1, endX2, endY1, endY2;
         dLength *= fractionLength;
         
-        
+        //creates angle between branches
         double angle1 = angle + branchingAngle;
         double angle2 = angle - branchingAngle;
-        
-        //fix angles
+
+        //finds endpoints
         endX1 = (int)(startX - dLength*Math.cos(angle1));
         endY1 = (int)(startY - dLength*Math.sin(angle1));
         endX2 = (int)(startX - dLength*Math.cos(angle2));
         endY2 = (int)(startY - dLength*Math.sin(angle2));
-        
+
+        //increases angle and rate at which it increases
         branchingAngle += angleChange;
         angleChange += 0.05;
+        
         g2.drawLine(startX, startY, endX1, endY1);
         g2.drawLine(startX, startY, endX2, endY2);
+        
         //check terminating sequence
-        //if true, call it wtice
-        if (dLength >= 40)
+        //if true, call it twice
+        if (dLength >= 35)
         {
             branch(dLength, endX1, endY1, 1.57+0.2, g2, branchingAngle, angleChange);
             branch(dLength, endX2, endY2, 1.57+0.2, g2, branchingAngle, angleChange);
@@ -103,9 +81,11 @@ public class FractalPanel extends JPanel
 
     }
 
-    //-----------------------------------------------------------------
-    //  Performs the initial calls to the drawFractal method.
-    //-----------------------------------------------------------------
+    /**
+     * Performs the initial calls to the drawFractal method.
+     *
+     * @param g2 graphics object
+     */
     public void paintComponent (Graphics g2)
     {
         super.paintComponent (g2);
@@ -116,17 +96,21 @@ public class FractalPanel extends JPanel
         branch(dLength, beginX, beginY, 1.57, g2, branchingAngle, angleChange);
     }
 
-    //-----------------------------------------------------------------
-    //  Sets the fractal order to the value specified.
-    //-----------------------------------------------------------------
+    /**
+     * Sets the fractal order to the value specified.
+     *
+     * @param order order number
+     */
     public void setOrder (int order)
     {
         current = order;
     }
 
-    //-----------------------------------------------------------------
-    //  Returns the current order.
-    //-----------------------------------------------------------------
+    /**
+     * Returns the current order.
+     *
+     * @return order of the recursion
+     */
     public int getOrder ()
     {
         return current;
